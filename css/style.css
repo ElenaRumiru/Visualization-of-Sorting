@@ -1,0 +1,179 @@
+    html {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+}
+
+body {
+    font-family: Arial, Verdana, sans-serif;
+    display: grid;
+    grid-gap: 10px;
+    grid-template-rows: 1fr 1fr;
+    height: 100vh;
+    background-color: rgb(45, 14, 47);
+    color: white;
+}
+
+.array-size {
+    max-width: 70px;
+    max-height: 30px;
+    border-radius: 6px;
+}
+
+.sort-box {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-rows: 40px 1fr;
+    padding: 10px;
+}
+
+.info-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.left-info {
+    display: flex;
+    align-items: center;
+}
+
+.info {
+    margin-right: 10px;
+}
+
+.start-btn {
+    margin-right: 10px;
+    background-color: transparent;
+    border: 2px solid rgba(249, 193, 248, 0.6);
+    color: white;
+    border-radius: 5px;
+    outline: none;
+    box-shadow: none;
+    padding: 8px 20px;
+    transition: background-color .2s, opacity .2s;
+    cursor: pointer;
+}
+
+.start-btn:hover {
+    background-color: rgba(193, 249, 245, 0.2);
+}
+
+.start-btn:active {
+    background-color: rgba(51, 69, 70, 0.5);
+}
+
+.start-btn:disabled {
+    opacity: .3;
+    background-color: transparent;
+    cursor: default;
+}
+
+.caption {
+    margin-right: 5px;
+}
+
+.value {}
+
+.chart-box {
+    display: grid;
+    grid-gap: 2px;
+}
+
+.chart-column {
+    display: grid;
+    grid-gap: 5px;
+    grid-template-rows: 1fr 30px;
+}
+
+.chart-column-line {
+    display: flex;
+    align-items: flex-end;
+}
+
+.chart-column-value {
+    position: relative;
+    background-color: rgba(252, 188, 246, 0.4);
+    width: 100%;
+    border-radius: 5px;
+    transition: height .5s, background-color .5s, opacity .5s;
+    overflow: hidden;
+}
+
+.chart-column-value:before {
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    width: 100%;
+    height: 0px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+    opacity: 0;
+    border-radius: 5px;
+}
+
+.chart-column-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    color: white;
+    border-radius: 5px;
+    font-size: 12px;
+    transition: background-color .2s;
+}
+
+.chart-column.larger .chart-column-number {
+    /* background-color: rgba(249, 252, 255, 0.2); */
+}
+
+.chart-column.larger .chart-column-value {
+    /* background-color: rgba(249, 252, 255, 0.7); */
+}
+
+.chart-column.less .chart-column-value {
+    background-color: rgba(218, 195, 215, 0.2);
+}
+
+.chart-column.flash .chart-column-value:before {
+    animation: flash 1.5s;
+}
+
+.chart-column.current .chart-column-value {
+    opacity: 0.9;
+    background-color: rgb(249, 252, 255);
+}
+
+.chart-column.current .chart-column-number {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+@keyframes flash {
+    0% {
+        height: 0px;
+        opacity: 0;
+    }
+    50% {
+        height: 100%;
+        bottom: 0px;
+        opacity: 1
+    }
+    100% {
+        height: 100%;
+        bottom: 100%;
+        opacity: 0
+    }
+}
