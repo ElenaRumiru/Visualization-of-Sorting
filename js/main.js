@@ -76,6 +76,7 @@ function createSortBox(container, sortFunction) {
     const chartBox = document.createElement('div'),
         infoBox = document.createElement('div'),
         leftInfo = document.createElement('div'),
+        nameMethod = document.createElement('span'),
         startBtn = document.createElement('button'),
         iterations = document.createElement('div'),
         iterationsCaption = document.createElement('span'),
@@ -90,6 +91,7 @@ function createSortBox(container, sortFunction) {
     infoBox.classList.add('info-box')
     chartBox.classList.add('chart-box')
     leftInfo.classList.add('left-info')
+    nameMethod.classList.add('name-method')
     startBtn.classList.add('start-btn')
     iterations.classList.add('iterations', 'info')
     iterationsCaption.classList.add('caption')
@@ -101,18 +103,20 @@ function createSortBox(container, sortFunction) {
     arraySize.setAttribute('type', 'number');
 
     // Добавляем текст
-    iterationsCaption.textContent = 'Итераций:'
+    nameMethod.textContent = `${container.id}`
+    iterationsCaption.textContent = 'Iterations:'
     iterationsValue.textContent = '0'
-    timeCaption.textContent = 'Время сортировки:'
+    timeCaption.textContent = 'Sorting time:'
     timeValue.textContent = '0'
-    startBtn.textContent = 'Старт'
-    arraySize.value = 100;
+    startBtn.textContent = 'Start'
+    // arraySize.value = 100;
     // Добавляем элементы в DOM
     iterations.append(iterationsCaption)
     iterations.append(iterationsValue)
+    leftInfo.append(nameMethod)
     leftInfo.append(startBtn)
-    leftInfo.append(iterations)
     leftInfo.append(arraySize)
+    leftInfo.append(iterations)    
     infoBox.append(leftInfo)
     time.append(timeCaption)
     time.append(timeValue)
@@ -154,7 +158,7 @@ function finishFlash(columns) {
 
 document.addEventListener('DOMContentLoaded', function () {
     // Метод пузырька
-    createSortBox(document.getElementById('bubble'), async function (columns, { iterationsValue, timeValue }) {
+    createSortBox(document.getElementById('Bubble'), async function (columns, { iterationsValue, timeValue }) {
         let startTime = Date.now();
 
         let interval = setInterval(function () {
@@ -198,7 +202,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // Метод выбора
-    createSortBox(document.getElementById('choice'), async function (columns, { iterationsValue, timeValue }) {
+    createSortBox(document.getElementById('Choice'), async function (columns, { iterationsValue, timeValue }) {
+        let method = 'Bubble';
         let startTime = Date.now();
 
         let interval = setInterval(function () {
@@ -241,145 +246,4 @@ document.addEventListener('DOMContentLoaded', function () {
         finishFlash(columns)
         clearInterval(interval)
     })
-
-
-
-
-    // Метод Radix сортировки
-    // Казалось бы для отображения мне нужно только поменять контейнер для создания там неободимых элементов
-    // Но что-то пошло не так с отображением. Я поигралась со значением высоты, но не помогло
-    createSortBox(document.getElementById('radix'), async function (columns, { iterationsValue, timeValue }) {
-        let startTime = Date.now();
-
-        let interval = setInterval(function () {
-            var elapsedTime = Date.now() - startTime;
-            timeValue.textContent = (elapsedTime / 1000).toFixed(3);
-        }, 100);
-
-        // Сюда я закинула почти голый код с тех алгоритмов сортировки, что я выписала и проверила в файле algorithms.js
-        // Если я правильно понимаю, мне нужно удалить здесь вызов функций
-        // Больше всего у меня в принципе вопросов по методу Radix так как он создает новый массив, получается.
-
-        // A utility function to get the maximum value in arr[]
-        function getMax(columns) {
-            let max = columns[0];
-            for (let i = 1; i < columns.length; i++) {
-                if (columns[i] > max) {
-                    max = columns[i];
-                }
-            }
-            return max;
-        }
-
-        // A function to do counting sort of columns[] according to
-        // the digit represented by exp.
-
-            const n = columns.length;
-            const output = new Array(n);
-            const count = new Array(NUMBERS_COUNT).fill(0);
-
-            // Store count of occurrences in count[]
-            for (let i = 0; i < n; i++) {
-                const index = Math.floor(columns[i] / exp) % 10;
-                count[index]++;
-            }
-
-            // Change count[i] so that count[i] now contains
-            // actual position of this digit in output[]
-            for (let i = 1; i < 10; i++) {
-                count[i] += count[i - 1];
-            }
-
-            // Build the output columnsay
-            for (let i = n - 1; i >= 0; i--) {
-                const index = Math.floor(columns[i] / exp) % 10;
-                output[count[index] - 1] = columns[i];
-                count[index]--;
-            }
-
-            // Copy the output array to arr[] so that arr[] now
-            // contains sorted numbers according to the current digit
-            for (let i = 0; i < n; i++) {
-                columns[i] = output[i];
-            }
-        
-
-        // The main function to implement Radix Sort
-        function radixSort(columns) {
-            const max = getMax(columns);
-
-            // Do counting sort for every digit. Note that
-            // instead of passing digit number, exp is passed.
-            // exp is 10^i where i is the current digit number
-            for (let exp = 1; Math.floor(max / exp) > 0; exp *= 10) {
-                countSort(columns, exp);
-            // Кол-во итераций
-             iterationsValue.textContent++;
-            
-            }
-        }
-
-        radixSort(columns);
-        console.log('Sorted array:', columns);       
-
-
-        // Задержка
-        await delay(DELAY)
-
-        finishFlash(columns)
-        clearInterval(interval)
-    })
-
-    // Шейкерная сортировка
-    createSortBox(document.getElementById('shaker'), async function (columns, { iterationsValue, timeValue }) {
-        let startTime = Date.now();
-
-        let interval = setInterval(function () {
-            var elapsedTime = Date.now() - startTime;
-            timeValue.textContent = (elapsedTime / 1000).toFixed(3);
-        }, 100);
-
-            let left = 0;
-            let right = columns.length - 1;
-            let swapped = true;
-        
-            while (swapped) {
-                swapped = false;
-        
-                // Forward pass similar to Bubble Sort
-                for (let i = left; i < right; i++) {
-                    if (columns[i] > columns[i + 1]) {
-                        // Swap elements if they are in the wrong order
-                        const temp = columns[i];
-                        columns[i] = columns[i + 1];
-                        columns[i + 1] = temp;
-                        swapped = true;
-                    }
-                }
-                right--;
-        
-                if (!swapped) {
-                    break;
-                }
-        
-                swapped = false;
-        
-                // Backward pass
-                for (let j = right; j > left; j--) {
-                    if (columns[j] < columns[j - 1]) {
-                        // Swap elements if they are in the wrong order
-                        const temp = columns[j];
-                        columns[j] = columns[j - 1];
-                        columns[j - 1] = temp;
-                        swapped = true;
-                    }
-                }
-                left++;
-            }
-        
-        
-        finishFlash(columns)
-        clearInterval(interval)
-    })
-
 })
