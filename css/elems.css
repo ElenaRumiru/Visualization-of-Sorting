@@ -13,8 +13,8 @@ body {
     font-family: 'Chivo Mono', monospace;
     display: grid;
     grid-gap: 10px;
-    grid-template-rows: repeat(3, 1fr);
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: 1fr;
     /* было 100vh, поигралась с этими значениями*/
     height: 100vh;
     background-color: rgb(45, 14, 47);

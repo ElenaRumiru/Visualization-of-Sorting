@@ -115,7 +115,6 @@ function createSortBox(container, sortFunction) {
     iterations.append(iterationsValue)
     leftInfo.append(nameMethod)
     leftInfo.append(startBtn)
-    leftInfo.append(arraySize)
     leftInfo.append(iterations)    
     infoBox.append(leftInfo)
     time.append(timeCaption)
